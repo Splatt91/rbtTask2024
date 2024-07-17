@@ -15,6 +15,7 @@ import org.apache.commons.logging.LogFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 
@@ -25,6 +26,8 @@ class AdminServiceImpl : AdminService {
 
     @Autowired
     private lateinit var csvMapper: CsvMapper
+    @Autowired
+    private lateinit var passwordEncoder: PasswordEncoder
     @Autowired
     private lateinit var employeeRepository: EmployeeRepository
     @Autowired
@@ -39,7 +42,14 @@ class AdminServiceImpl : AdminService {
     override fun importEmployeeProfiles(file: MultipartFile): ResponseEntity<List<EmployeeResponseDTO>> {
         val bufferedReader = createBufferedReaderForFile(file)
         bufferedReader.readLine()
-        val employees = parseFile<Employee>(csvMapper, bufferedReader) { it }
+        val employees = parseFile<Employee>(csvMapper, bufferedReader) {
+            val item = Employee (
+                it.id,
+                it.email,
+                passwordEncoder.encode(it.password)
+            )
+            item
+        }
         val result = employeeRepository.saveAll(employees)
         return ResponseEntity(result.toListEmployeeResponseDto(), HttpStatus.OK)
     }

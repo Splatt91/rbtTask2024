@@ -4,10 +4,11 @@ import com.vacation_tracker.employee.dto.UsedVacationDaysRequestDTO
 import com.vacation_tracker.employee.dto.UsedVacationDaysResponseDTO
 import com.vacation_tracker.employee.dto.VacationDaysResponseDTO
 import org.springframework.http.ResponseEntity
+import java.security.Principal
 
 interface EmployeeService {
     fun ping(): String
-    fun searchVacationDays(): ResponseEntity<Map<Long, List<VacationDaysResponseDTO>>>
+    fun searchVacationDays(principal: Principal): ResponseEntity<Map<Long, List<VacationDaysResponseDTO>>>
     fun getUsedVacationDaysForGivenTimePeriod(usedVacationDaysRequestDto: UsedVacationDaysRequestDTO): ResponseEntity<List<UsedVacationDaysResponseDTO>>
     fun addUsedVacationDays(usedVacationDaysRequestDto: UsedVacationDaysRequestDTO): ResponseEntity<UsedVacationDaysResponseDTO>
 }

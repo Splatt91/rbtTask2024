@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import java.security.Principal
 
 @Service
 class EmployeeServiceImpl : EmployeeService {
@@ -36,8 +37,9 @@ class EmployeeServiceImpl : EmployeeService {
     }
 
 
-    override fun searchVacationDays(): ResponseEntity<Map<Long, List<VacationDaysResponseDTO>>> {
-        val vacationDays = vacationDaysRepository.findByEmployeeEmail("user1@rbt.rs")
+    override fun searchVacationDays(principal: Principal): ResponseEntity<Map<Long, List<VacationDaysResponseDTO>>> {
+        logger.info(principal.name)
+        val vacationDays = vacationDaysRepository.findByEmployeeEmail(principal.name)
         val result = vacationDays.toListVacationDaysResponseDto().groupBy { it.year }
         return ResponseEntity(result, HttpStatus.OK)
     }

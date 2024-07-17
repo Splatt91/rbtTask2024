@@ -37,8 +37,7 @@ data class Employee (@Id
 }
 
 fun Employee.toEmployeeResponseDto() = EmployeeResponseDTO (
-    email = email,
-    password = password
+    email = email
 )
 
 fun List<Employee>.toListEmployeeResponseDto(): List<EmployeeResponseDTO> {

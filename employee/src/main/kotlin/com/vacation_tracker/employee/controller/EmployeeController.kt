@@ -7,6 +7,7 @@ import com.vacation_tracker.employee.service.EmployeeService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.security.Principal
 
 @RestController
 @RequestMapping("/employee")
@@ -22,8 +23,8 @@ class EmployeeController {
 
     @GetMapping("vacation-days")
     @ResponseBody
-    fun searchVacationDays() : ResponseEntity<Map<Long, List<VacationDaysResponseDTO>>> {
-        return employeeService.searchVacationDays()
+    fun searchVacationDays(principal: Principal) : ResponseEntity<Map<Long, List<VacationDaysResponseDTO>>> {
+        return employeeService.searchVacationDays(principal)
     }
 
     @PostMapping("used-vacation-days/fetch")
