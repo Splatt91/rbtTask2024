@@ -1,4 +1,32 @@
 
+# Vacation Tracker
+
+1. Start all services using start_services.sh
+2. Postman collection called "Vacation Tracker.postman_collection.json" is inside rbtTask2024 folder
+
+## Overview
+
+### admin-service
+
+- Uses api key protection
+  - api key is hardcoded to value: secret-api-key
+
+- Use case
+  1. Import employee profiles
+  2. Import total vacation days per employee per year
+  3. Import records of used vacation days per employee
+    - This API call triggers update in databse for total vacation days
+
+### employee-service
+
+- Uses basic authentication
+  - You can authenticate by using one of the users from the provided sample file
+
+- Employees can add a new record of used vacation days.
+- If everything has been imported via admin-service Employee can
+  - search/see the number of total, used and available vacation days per year
+  - search/list records of used vacation days for a specified time period(specified from and to dates).
+
 ## Using the `start_services.sh` Script
 
 The `start_services.sh` script starts the microservices in the correct order, ensuring that any processes using specified ports are killed before starting the services. The script also includes a shutdown function to clean up and stop all services when it exits.
@@ -38,28 +66,3 @@ The `start_services.sh` script starts the microservices in the correct order, en
 - **`gateway`**: Uses port `9000`.
 - **Kafka**: Uses default port `9092`.
 - **Kafka UI**: Typically accessed on port `9000` (ensure no conflicts).
-
-## Microservices overview
-
-Postman collection called "Vacation Tracker.postman_collection.json" is inside rbtTask2024 folder
-
-### admin-service
-
-- Uses api key protection
-  - api key is hardcoded to value: secret-api-key
-
-- Use case
-  1. Import employee profiles
-  2. Import total vacation days per employee per year
-  3. Import records of used vacation days per employee
-      - This API call triggers update in databse for total vacation days
-
-### employee-service
-
-- Uses basic authentication
-  - You can authenticate by using one of the users from the provided sample file
-
-- Employees can add a new record of used vacation days.
-- If everything has been imported via admin-service Employee can
-  - search/see the number of total, used and available vacation days per year
-  - search/list records of used vacation days for a specified time period(specified from and to dates).
