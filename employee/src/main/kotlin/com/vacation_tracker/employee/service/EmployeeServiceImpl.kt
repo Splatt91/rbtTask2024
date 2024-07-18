@@ -18,24 +18,24 @@ import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import java.security.Principal
 
+
 @Service
 class EmployeeServiceImpl : EmployeeService {
 
     private val logger: Log = LogFactory.getLog(this.javaClass)
 
     @Autowired
+    private lateinit var kafkaCommandProducer: KafkaCommandProducer
+    @Autowired
     private lateinit var vacationDaysRepository: VacationDaysRepository
-
     @Autowired
     private lateinit var usedVacationDaysRepository: UsedVacationDaysRepository
-
     @Autowired
     private lateinit var employeeRepository: EmployeeRepository
 
     override fun ping(): String {
         return "Employee service ping!"
     }
-
 
     override fun searchVacationDays(principal: Principal): ResponseEntity<Map<Long, List<VacationDaysResponseDTO>>> {
         logger.info(principal.name)
@@ -44,10 +44,10 @@ class EmployeeServiceImpl : EmployeeService {
         return ResponseEntity(result, HttpStatus.OK)
     }
 
-    override fun getUsedVacationDaysForGivenTimePeriod(usedVacationDaysRequestDto: UsedVacationDaysRequestDTO): ResponseEntity<List<UsedVacationDaysResponseDTO>> {
+    override fun getUsedVacationDaysForGivenTimePeriod(principal: Principal, usedVacationDaysRequestDto: UsedVacationDaysRequestDTO): ResponseEntity<List<UsedVacationDaysResponseDTO>> {
         val usedVacationDays =
             usedVacationDaysRepository.findByEmployeeEmailAndStartDateGreaterThanEqualAndEndDateLessThanEqual(
-                "user13@rbt.rs",
+                principal.name,
                 usedVacationDaysRequestDto.startDate,
                 usedVacationDaysRequestDto.endDate
             )
@@ -55,12 +55,13 @@ class EmployeeServiceImpl : EmployeeService {
         return ResponseEntity(result, HttpStatus.OK)
     }
 
-    override fun addUsedVacationDays(usedVacationDaysRequestDto: UsedVacationDaysRequestDTO): ResponseEntity<UsedVacationDaysResponseDTO> {
-        val employee = employeeRepository.findByEmail("user13@rbt.rs")
+    override fun addUsedVacationDays(principal: Principal, usedVacationDaysRequestDto: UsedVacationDaysRequestDTO): ResponseEntity<UsedVacationDaysResponseDTO> {
+        val employee = employeeRepository.findByEmail(principal.name)
         val usedVacationDays =
             UsedVacationDays(null, employee, usedVacationDaysRequestDto.startDate, usedVacationDaysRequestDto.endDate)
-        val result = usedVacationDaysRepository.save(usedVacationDays).toUsedVacationDaysResponseDto()
-        return ResponseEntity(result, HttpStatus.OK)
+        val result = usedVacationDaysRepository.save(usedVacationDays)
+        kafkaCommandProducer.send(result)
+        return ResponseEntity(result.toUsedVacationDaysResponseDto(), HttpStatus.OK)
     }
 
 }

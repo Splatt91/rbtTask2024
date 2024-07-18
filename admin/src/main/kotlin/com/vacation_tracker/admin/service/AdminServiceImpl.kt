@@ -25,6 +25,8 @@ class AdminServiceImpl : AdminService {
     private val logger: Log = LogFactory.getLog(this.javaClass)
 
     @Autowired
+    private lateinit var kafkaCommandProducer: KafkaCommandProducer
+    @Autowired
     private lateinit var csvMapper: CsvMapper
     @Autowired
     private lateinit var passwordEncoder: PasswordEncoder
@@ -51,6 +53,9 @@ class AdminServiceImpl : AdminService {
             item
         }
         val result = employeeRepository.saveAll(employees)
+        result.forEach {
+            kafkaCommandProducer.send(it)
+        }
         return ResponseEntity(result.toListEmployeeResponseDto(), HttpStatus.OK)
     }
 
@@ -70,6 +75,9 @@ class AdminServiceImpl : AdminService {
             item
         }
         val result = vacationDaysRepository.saveAll(totalVacationDays)
+        result.forEach {
+            kafkaCommandProducer.send(it)
+        }
         return ResponseEntity(result.toListVacationDaysResponseDto(), HttpStatus.OK)
     }
 
@@ -86,6 +94,9 @@ class AdminServiceImpl : AdminService {
             item
         }
         val result = usedVacationDaysRepository.saveAll(usedVacationDays)
+        result.forEach {
+            kafkaCommandProducer.send(it)
+        }
         return ResponseEntity(result.toListVacationDaysResponseDto(), HttpStatus.OK)
     }
 

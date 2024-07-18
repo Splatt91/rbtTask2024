@@ -29,14 +29,14 @@ class EmployeeController {
 
     @PostMapping("used-vacation-days/fetch")
     @ResponseBody
-    fun getUsedVacationDaysForGivenTimePeriod(@RequestBody usedVacationDays: UsedVacationDaysRequestDTO)
+    fun getUsedVacationDaysForGivenTimePeriod(principal: Principal, @RequestBody usedVacationDays: UsedVacationDaysRequestDTO)
     : ResponseEntity<List<UsedVacationDaysResponseDTO>> {
-        return employeeService.getUsedVacationDaysForGivenTimePeriod(usedVacationDays)
+        return employeeService.getUsedVacationDaysForGivenTimePeriod(principal, usedVacationDays)
     }
 
     @PostMapping("used-vacation-days/add")
     @ResponseBody
-    fun addUsedVacationDays(@RequestBody usedVacationDays: UsedVacationDaysRequestDTO): ResponseEntity<UsedVacationDaysResponseDTO> {
-        return employeeService.addUsedVacationDays(usedVacationDays)
+    fun addUsedVacationDays(principal: Principal, @RequestBody usedVacationDays: UsedVacationDaysRequestDTO): ResponseEntity<UsedVacationDaysResponseDTO> {
+        return employeeService.addUsedVacationDays(principal, usedVacationDays)
     }
 }
