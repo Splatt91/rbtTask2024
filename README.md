@@ -1,8 +1,19 @@
 
 # Vacation Tracker
 
-1. Start all services using start_services.sh
-2. Postman collection called "Vacation Tracker.postman_collection.json" is inside rbtTask2024 folder
+## Prerequisites
+
+To run these services, you need to have the following installed:
+
+- Java 11 or higher
+- Maven
+- Docker
+- Docker Compose
+- cURL
+
+## How to start
+1. Use start_services.sh to start all services
+2. Import Postman collection "Vacation Tracker.postman_collection.json"
 
 ## Overview
 
