@@ -1,0 +1,256 @@
+{
+	"info": {
+		"_postman_id": "24b5c12c-f917-4e81-a21d-c0e2409e949a",
+		"name": "Vacation Tracker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15143989"
+	},
+	"item": [
+		{
+			"name": "admin-service",
+			"item": [
+				{
+					"name": "Import Employee Profiles",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "secret-api-key",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "./Technical assignment/Samples/employee_profiles.csv"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9000/admin/import/employee-profiles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"admin",
+								"import",
+								"employee-profiles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Import Total Vacation Days",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "secret-api-key",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "./Technical assignment/Samples/vacations_2019.csv"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8081/admin/import/total-vacation-days",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"admin",
+								"import",
+								"total-vacation-days"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Import Used Vacation Days",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "secret-api-key",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "./Technical assignment/Samples/used_vacation_dates.csv"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8081/admin/import/used-vacation-days",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"admin",
+								"import",
+								"used-vacation-days"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "employee-service",
+			"item": [
+				{
+					"name": "Get Used Vacation Days",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "Abc!@#$",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "user1@rbt.rs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"startDate\": \"2019-08-30\",\n    \"endDate\": \"2020-09-15\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/employee/used-vacation-days/fetch",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"employee",
+								"used-vacation-days",
+								"fetch"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Vacation Days",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "Abc!@#$",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "user1@rbt.rs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/employee/vacation-days",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"employee",
+								"vacation-days"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Used Vacation Days",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "Abc!@#$",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "user1@rbt.rs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"startDate\": \"2019-08-30\",\n    \"endDate\": \"2020-09-15\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/employee/used-vacation-days/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"employee",
+								"used-vacation-days",
+								"add"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
